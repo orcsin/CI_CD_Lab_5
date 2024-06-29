@@ -35,3 +35,23 @@ application {
     // Define the main class for the application.
     mainClass = 'org.example.Project'
 }
+
+task.register('clean', Task) {
+
+
+}
+
+task.register('build-custom', Task) {
+
+    
+}
+
+task.register('test-custom', Task) {
+
+    dependsOn task.build-custom
+}
+
+task.register('hello', Task) {
+
+    dependsOn task.test-custom
+}
