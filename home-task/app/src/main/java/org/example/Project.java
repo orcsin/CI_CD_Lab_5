@@ -1,13 +1,13 @@
-package com.test;
+package org.example;
 
 import org.apache.commons.collections4.Predicate;
 import org.apache.log4j.Logger;
 
 class Project {
 
- public String getGreeting() {
-        return "Hello, MNT Lab!";
-    }
+  public String getGreeting() {
+    return "Hello, MNT Lab!";
+  }
 
   public static void test() {
     System.out.println("test");

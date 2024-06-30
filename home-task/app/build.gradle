@@ -9,6 +9,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'java'
     id 'application'
+    id 'io.spring.dependency-management' version '1.0.1.RELEASE'
 }
 
 repositories {
@@ -16,13 +17,33 @@ repositories {
     mavenCentral()
 }
 
+// dependencyManagement {
+//   imports {
+//     mavenBom 'org.apache.logging.log4j:log4j-bom:2.12.4'
+//   }
+// }
+
 dependencies {
     // Use JUnit test framework.
     testImplementation libs.junit
 
     // This dependency is used by the application.
     implementation libs.guava
+
+    //commons-collections4
+    implementation 'org.apache.commons:commons-collections4:4.0'
+    // compile 'org.apache.logging.log4j:log4j-api'
+    // compile 'org.apache.logging.log4j:log4j-core'
+    testImplementation 'org.slf4j:slf4j-api:1.7.32'
+    testImplementation 'org.slf4j:slf4j-log4j12:1.7.32'
+    implementation 'log4j:log4j:1.2.17'
 }
+
+// jar {
+//     manifest {
+//         attributes 'Main-Class': 'execute.Entry'
+//     }
+// }
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
@@ -36,22 +57,20 @@ application {
     mainClass = 'org.example.Project'
 }
 
-task.register('clean', Task) {
-
-
-}
-
-task.register('build-custom', Task) {
+tasks.register('build-custom', Task) {
 
     
 }
 
-task.register('test-custom', Task) {
-
-    dependsOn task.build-custom
+tasks.register('test-custom', Test) {
+    doFirst {
+        println 'clean'
+    }
+    useJUnitPlatform()
+    dependsOn('build-custom')
 }
 
-task.register('hello', Task) {
+tasks.register('hello', Task) {
 
-    dependsOn task.test-custom
+    dependsOn ('test-custom')
 }
