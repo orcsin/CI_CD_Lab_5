@@ -10,6 +10,8 @@ plugins {
     id 'application'
 }
 
+version = '0.0.1-SNAPSHOT'
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -17,10 +19,13 @@ repositories {
 
 dependencies {
     // Use JUnit test framework.
-    testImplementation libs.junit
-
+    //testImplementation libs.junit
+    testImplementation 'junit:junit:4.13.2'
+    
     // This dependency is used by the application.
     implementation libs.guava
+    implementation 'log4j:log4j:1.2.17'
+    implementation 'org.apache.commons:commons-collections4:4.4'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -32,5 +37,41 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.example.App'
+    mainClass = 'org.example.Project'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.example.Project'
+    }
+}
+
+tasks.named('test', Test) {
+    useJUnit()
+
+    maxHeapSize = '1G'
+
+    testLogging {
+        events "passed"
+    }
+}
+
+tasks.register("build-custom") {
+    doFirst {
+        println 'build-customn'
+    }
+}
+
+tasks.register("test-custom") {
+    doFirst {
+        println 'test-custom'
+    }
+    dependsOn ('build')
+}
+
+tasks.register("hello") {
+    doFirst {
+        println 'hello'
+    }
+    dependsOn ('test-custom')
 }
